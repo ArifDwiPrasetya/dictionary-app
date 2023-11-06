@@ -1,6 +1,10 @@
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
 from flask import (
     Flask, 
-    render_template, 
+    render_template,
     jsonify, 
     request, 
     url_for)
@@ -10,10 +14,12 @@ from datetime import datetime
 from flask import redirect
 from bson import ObjectId
 
-password = 'belajar123'
-dbCnectString = f'mongodb://belajar:{password}@ac-h7xtzlg-shard-00-00.qildb3a.mongodb.net:27017,ac-h7xtzlg-shard-00-01.qildb3a.mongodb.net:27017,ac-h7xtzlg-shard-00-02.qildb3a.mongodb.net:27017/?ssl=true&replicaSet=atlas-fwnktr-shard-0&authSource=admin&retryWrites=true&w=majority&appName=AtlasApp'
-client = MongoClient(dbCnectString)
-db = client.dbbelajar
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+
+db = client[DB_NAME]
 
 app = Flask(__name__)
 
